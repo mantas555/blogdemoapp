@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/static/css/style.css}"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+            crossorigin="anonymous" defer></script>
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<header th:fragment="header">
+    <div class="topnav">
+        <a class="active" th:href="@{/}" th:text="#{header.home}">Home</a>
+        <div>
+            <a th:href="@{''(lang='en')}">
+                <img th:src="@{/css/images/united-kingdom.png}"> EN</a>
+            <a th:href="@{''(lang='lt')}">
+                <img th:src="@{/css/images/lithuania.png}"> LT</a>
+        </div>
+        <span sec:authorize="hasRole('ROLE_ADMIN')">
+        <a class="left" th:href="@{/createNewPost}" th:text="#{header.newPost}">New Post</a>
+        </span>
+        <span sec:authorize="isAuthenticated()">
+        <a class="right right-logout" th:href="@{/logout}" th:text="#{header.logout}">Logout</a>
+        </span>
+        <span sec:authorize="isAuthenticated()">
+            <span><a class="right-user" sec:authentication="name">username</a><a class="right-user-welcome" th:text="#{header.welcome}"></a></span>
+        </span>
+        <span sec:authorize="!isAuthenticated()">
+        <a class="right right-logout" th:href="@{/login}" th:text="#{header.login}">Log In</a>
+        <a class="right" th:href="@{/signup}" th:text="#{header.signup}">Sign Up</a>
+        </span>
+    </div>
+    <div class="header line">
+        <h2 class="lineUp" th:text="#{header.headername}"></h2>
+    </div>
+</header>
+
+</body>
+</html>

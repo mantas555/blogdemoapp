@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="/fragments/head :: head"></head>
+<body>
+
+<div th:replace="/fragments/header :: header"></div>
+
+<div class="container">
+    <div class="post">
+        <h2 th:text="${post.title}">Title</h2>
+        <h5 th:text="#{post.user.posted} + ${#dates.format(post.creationDate, 'yyyy MMMM dd')} + ' ' + #{post.user.by} + ' ' + ${post.user.username}">Creation date and by whom</h5>
+        <img src="https://thumbs.dreamstime.com/b/blog-information-website-concept-workplace-background-text-view-above-127465079.jpg" class="img" alt="Blog page"/>
+        <p th:text="${post.body}">body text</p>
+        <div class="align-right" sec:authorize="hasRole('ROLE_ADMIN')">
+            <a th:href="@{'/editPost/{id}'(id=${post.id})}">
+                <button class="green-btn blue-btn" type="button" th:text="#{post.Edit}">Edit</button>
+            </a>
+        </div>
+
+    </div>
+    <form action="#"
+          th:action="@{'/commentEdit/' + ${post.id}}"
+          method="post">
+    <div class="comments">
+        <h2 th:text="#{post.Comments}">Comments</h2>
+        <div class="comment" th:each="comment : ${post.comments}">
+            <h5 th:text="#{post.CommentedOn} + ${#dates.format(post.creationDate, 'yyyy-MM-dd')} +' '+ #{post.CommentedOnBy} +' '+ ${comment.user.username}">Comment date and by whom</h5>
+            <p th:text="${comment.body}">Body</p>
+            <div class="align-right" sec:authorize="hasRole('ROLE_ADMIN')">
+
+                <button class="green-btn blue-btn" type="submit" th:text="#{post.Edit}">Edit</button>
+            </div>
+        </div>
+    </div>
+    </form>
+    <div class="align-center">
+        <a th:href="@{'/comment/{id}'(id=${post.id})}">
+            <button class="green-btn" type="button" th:text="#{post.CommentPost}">Comment Post</button>
+        </a>
+    </div>
+</div>
+
+<footer th:replace="/fragments/footer :: footer"></footer>
+
+</body>
+</html>

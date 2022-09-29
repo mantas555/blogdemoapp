@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/head :: head"></head>
+<body>
+
+<div th:replace="/fragments/header :: header"></div>
+
+<div class="container">
+
+    <h2 th:text="#{comment.write}">Write new comment</h2>
+    
+    <form action="#"
+          th:action="@{'/comment'}"
+          th:object="${comment}"
+          method="post">
+        <label>
+            <div class="alert-red" th:if="${#fields.hasErrors('body')}" th:errors="*{body}">Body Error</div>
+            <textarea th:field="*{body}" th:placeholder="#{comment.placeholder}" ></textarea>
+        </label>
+        <div>
+            <button class="green-btn" type="submit" th:text="#{postForm.send}">Send</button>
+        </div>
+    </form>
+</div>
+
+<footer th:replace="/fragments/footer :: footer"></footer>
+
+</body>
+</html>

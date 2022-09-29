@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="/fragments/head :: head"></head>
+<body>
+
+<header th:fragment="header">
+    <div class="topnav">
+        <a class="left" th:href="@{/}" th:text="#{header.home}">Home</a>
+        <span sec:authorize="hasRole('ROLE_USER')">
+        <a class="left" th:href="@{/createNewPost}" th:text="#{header.newPost}">New Post</a>
+        </span>
+        <div>
+            <a th:href="@{'signup'(lang='en')}">
+                <img th:src="@{/css/images/united-kingdom.png}"> EN</a>
+            <a th:href="@{'signup'(lang='lt')}">
+                <img th:src="@{/css/images/lithuania.png}"> LT</a>
+        </div>
+        <span sec:authorize="isAuthenticated()">
+        <a class="right" th:href="@{/logout}" th:text="#{header.logout}">Logout</a>
+        </span>
+        <span sec:authorize="isAuthenticated()">
+            <a class="right" th:text="#{header.welcome}">Welcome <span sec:authentication="name" th:text="#{header.name}">name?</span></a>
+        </span>
+        <span sec:authorize="!isAuthenticated()">
+        <a class="right right-logout" th:href="@{/login}" th:text="#{header.login}">Log In</a>
+        <a class="right active" th:href="@{/signup}" th:text="#{header.signup}">Sign Up</a>
+        </span>
+    </div>
+    <div class="header line">
+        <h2 class="lineUp" th:text="#{header.headername}"></h2>
+    </div>
+</header>
+
+<div class="container" th:class="align-center">
+
+    <h2 th:text="#{register.RegNewUser}">Register new user</h2>
+
+    <form action="#"
+          th:action="@{/register}"
+          th:object="${blogUser}"
+          method="post" class="loginForm">
+        <div>
+            <label>
+                <div class="alert-red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error
+                </div>
+                <h5 th:text="#{register.LoginField}" th:class="register-align">Your login below</h5>
+                <input type="text" th:field="*{username}" th:placeholder="#{login.loginPlaceholder}"/>
+            </label>
+        </div>
+        <h5 th:text="#{register.PasswordField}" th:class="register-align">Your password below</h5>
+        <div>
+            <label>
+                <div class="alert-red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error
+                </div>
+                <input type="password" th:field="*{password}" th:placeholder="#{login.passwordPlaceholder}"/>
+            </label>
+        </div>
+        <div>
+            <button class="green-btn" type="submit" th:text="#{register.button}">Register</button>
+        </div>
+    </form>
+</div>
+
+<footer th:replace="/fragments/footer :: footer"></footer>
+
+</body>
+</html>

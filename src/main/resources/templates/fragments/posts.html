@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:fragment="posts(posts)">
+
+    <div class="posts_wrapper">
+        <div class="post" th:each="post : ${posts}">
+            <h2><a th:href="@{'/post/' + ${post.id}}" th:text="${post.title}">Title</a></h2>
+            <h5 th:text="#{post.user.posted} + ${#dates.format(post.creationDate, 'yyyy MMMM dd')} + ' ' + #{post.user.by} + ' ' + ${post.user.username}">Creation date and by whom</h5>
+            <img src="https://thumbs.dreamstime.com/b/blog-information-website-concept-workplace-background-text-view-above-127465079.jpg" class="img" alt="Blog page"/>
+            <p th:text="${post.body}">body text</p>
+            <br>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
